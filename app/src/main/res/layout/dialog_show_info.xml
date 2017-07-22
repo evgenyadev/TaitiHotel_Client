@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/info"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/tvShowInfo"
+            android:padding="@dimen/margin_standard"
+            tools:text="asdflkjas laskdjfl kasjd kjasdfj \n\nnhasdfasef asfeasehfklj kjhasjklfeh as lkjhfaslkje has \nasjdhfsadf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <View
+        android:layout_height="2dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorLightBlue">
+    </View>
+
+    <Button
+        style="?android:attr/buttonBarButtonStyle"
+        android:id="@+id/buttonShowInfoOk"
+        android:text="OK"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

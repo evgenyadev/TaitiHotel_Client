@@ -1,0 +1,130 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flReserve"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kotov.invisible.taitihotel.fragments.ReserveFragment">
+
+    <ProgressBar
+        android:id="@+id/pbSending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rlReserveOnSent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:text="Заявка отправлена. Спасибо."
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_below="@id/tv2"
+            android:id="@+id/btnToMain"
+            android:padding="@dimen/padding_standard"
+            android:layout_margin="@dimen/margin_large"
+            android:text="На главную"
+            android:layout_width="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_revert"
+            android:background="@drawable/round_corners_button_green"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_below="@id/tv2"
+            android:padding="@dimen/padding_standard"
+            android:layout_margin="@dimen/margin_large"
+            android:layout_toRightOf="@id/btnToMain"
+            android:drawableLeft="@android:drawable/ic_delete"
+            android:id="@+id/btnExit"
+            android:layout_width="wrap_content"
+            android:text="Выход"
+            android:background="@drawable/round_corners_button_blue"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlReserveMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="Имя Фамилия"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/etName"
+            android:layout_alignStart="@+id/etName"
+            android:layout_below="@+id/etName"
+            android:ems="10"
+            android:hint="0951119999"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/etPhone"
+            android:text="В какое время вам звонить?" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv1"
+            android:layout_margin="@dimen/margin_standard">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="с" />
+
+            <Spinner
+                android:id="@+id/spnrFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="до" />
+
+            <Spinner
+                android:id="@+id/spnrTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnReserve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_standard"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/round_corners_button_orange"
+        android:text="Зарезервировать" />
+
+</FrameLayout>

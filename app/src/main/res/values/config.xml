@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ip адреса сервера -->
+    <string name="ip_from_device">http://192.168.137.1/</string>
+    <string name="ip_from_emulator">http://192.168.247.2/</string>
+
+    <!-- начало и конец сезона -->
+    <!-- january 0; february 1; ... ; december 11 -->
+    <!-- 1th of may -->
+    <integer name="season_start_month">4</integer>
+    <integer name="season_start_day">1</integer>
+    <!-- 30th of september -->
+    <integer name="season_end_month">8</integer>
+    <integer name="season_end_day">30</integer>
+
+
+    <!-- форматы пишутся в соответствии с форматами SimpleDateFormat -->
+    <!-- формат времени для отображения на устройстве -->
+    <string name="format_date_full">"d MMM yyyy"</string>
+    <string name="format_date_short">dd MMM</string>
+
+    <!-- формат времени для отправки на сервер -->
+    <string name="server_date_format">yyyy-MM-dd</string>
+</resources>
