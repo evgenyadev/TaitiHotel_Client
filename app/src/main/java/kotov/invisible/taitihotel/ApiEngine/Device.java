@@ -3,7 +3,7 @@ package kotov.invisible.taitihotel.ApiEngine;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class Device {
 
     @SerializedName("pseudo_id")
     @Expose

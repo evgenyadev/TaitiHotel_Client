@@ -30,6 +30,30 @@ public class Order {
     @Expose
     private int time_to;
 
+    @SerializedName("date_check_in")
+    @Expose
+    private String date_check_in;
+
+    @SerializedName("date_check_out")
+    @Expose
+    private String date_check_out;
+
+    public String getDate_check_in() {
+        return date_check_in;
+    }
+
+    public void setDate_check_in(String date_check_in) {
+        this.date_check_in = date_check_in;
+    }
+
+    public String getDate_check_out() {
+        return date_check_out;
+    }
+
+    public void setDate_check_out(String date_check_out) {
+        this.date_check_out = date_check_out;
+    }
+
     public List<OrderedRoomData> getOrderedRoomsData() {
         return orderedRoomsData;
     }

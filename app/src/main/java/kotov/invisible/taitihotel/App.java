@@ -3,7 +3,6 @@ package kotov.invisible.taitihotel;
 
 import android.app.Application;
 import android.os.Build;
-import android.util.Log;
 
 import kotov.invisible.taitihotel.interfaces.TaitiApi;
 import retrofit2.Retrofit;
@@ -22,12 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // detect emulator
-        String url;
-        if ( "vbox86p".equals(Build.PRODUCT))
-            url = getResources().getString(R.string.ip_from_emulator);
-        else
-            url = getResources().getString(R.string.ip_from_device);
+        String url = getResources().getString(R.string.server_address);
 
         retrofit = new Retrofit.Builder().baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())

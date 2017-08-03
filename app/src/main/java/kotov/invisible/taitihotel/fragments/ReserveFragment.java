@@ -33,9 +33,6 @@ import retrofit2.Response;
 
 public class ReserveFragment extends Fragment {
 
-    private static final String ARG_ORDER = "order";
-
-    private String mOrder;
     private Spinner spnrFrom;
     private TextView tv1;
     private TextView tv2;
@@ -49,23 +46,13 @@ public class ReserveFragment extends Fragment {
     private RelativeLayout rlOnSent;
     private Button btnExit;
     private Button btnToMain;
+    private Call<APIAnswer> sendOrderCall;
 
     private OnFragmentInteractionListener mListener;
-
-    public static ReserveFragment newInstance(String param1, String param2) {
-        ReserveFragment fragment = new ReserveFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_ORDER, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mOrder = getArguments().getString(ARG_ORDER);
-        }
     }
 
     @Override
@@ -158,9 +145,12 @@ public class ReserveFragment extends Fragment {
         order.setTime_from(spnrFrom.getSelectedItemPosition());
         order.setTime_to(spnrTo.getSelectedItemPosition());
         order.setOrderedRoomsData(((MainActivity) getActivity()).getOrderedRoomsData());
+        order.setDate_check_in(((MainActivity) getActivity()).mDateCheckIn);
+        order.setDate_check_out(((MainActivity) getActivity()).mDateCheckOut);
 
         // send data
-        App.getApi().orderAdd(order).enqueue(new Callback<APIAnswer>() {
+        sendOrderCall = App.getApi().requestAdd(order);
+        sendOrderCall.enqueue(new Callback<APIAnswer>() {
             @Override
             public void onResponse(Call<APIAnswer> call, Response<APIAnswer> response) {
                 if (response.isSuccessful()) {
@@ -176,8 +166,10 @@ public class ReserveFragment extends Fragment {
 
             @Override
             public void onFailure(Call<APIAnswer> call, Throwable t) {
-                Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
-                setEnabledViews(true);
+                if (!call.isCanceled()) {
+                    Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    setEnabledViews(true);
+                }
             }
         });
     }
@@ -225,6 +217,9 @@ public class ReserveFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        if (sendOrderCall != null)
+            sendOrderCall.cancel();
     }
 
     public interface OnFragmentInteractionListener {

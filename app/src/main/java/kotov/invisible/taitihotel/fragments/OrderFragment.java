@@ -49,6 +49,8 @@ public class OrderFragment extends DialogFragment {
     private static final String ARG_PEOPLE_COUNT = "peopleCount";
     private static final String ARG_ORDERED_ROOMS_DATA = "orderedRoomsData";
 
+    Call<List<Price>> getPricesCall;
+    Call<List<RoomsGroup>> getRoomsCall;
     boolean isGetPricesDone = false;
     boolean isSearchDone = false;
     TextView infoRoomText;
@@ -96,7 +98,8 @@ public class OrderFragment extends DialogFragment {
 
         // Получить доступные номера
         roomsGroupList = new ArrayList<>();
-        App.getApi().roomSearchByRange(mDateCheckIn, mDateCheckOut).enqueue(new Callback<List<RoomsGroup>>() {
+        getRoomsCall = App.getApi().roomSearchByRange(mDateCheckIn, mDateCheckOut);
+        getRoomsCall.enqueue(new Callback<List<RoomsGroup>>() {
             @Override
             public void onResponse(Call<List<RoomsGroup>> call, Response<List<RoomsGroup>> response) {
                 if (response.isSuccessful()) {
@@ -110,6 +113,7 @@ public class OrderFragment extends DialogFragment {
                     isSearchDone = true;
                     ifReadyShowViews();
                 } else {
+                    pbLoadingContent.setVisibility(View.GONE);
                     APIError error = ErrorUtils.parseError(response);
                     Toast.makeText(getContext(), error.getCode() + " " + error.getMessage(), Toast.LENGTH_LONG).show();
                     ErrorLog.logd(getContext(), error);
@@ -118,15 +122,18 @@ public class OrderFragment extends DialogFragment {
 
             @Override
             public void onFailure(Call<List<RoomsGroup>> call, Throwable t) {
-                pbLoadingContent.setVisibility(View.GONE);
-                // todo добавить повтор
-                Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (!call.isCanceled()) {
+                    pbLoadingContent.setVisibility(View.GONE);
+                    // todo добавить повтор
+                    Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
         // Получить список цен на номера
         prices = new HashMap<>();
-        App.getApi().priceGetAll().enqueue(new Callback<List<Price>>() {
+        getPricesCall = App.getApi().priceGetAll();
+        getPricesCall.enqueue(new Callback<List<Price>>() {
             @Override
             public void onResponse(Call<List<Price>> call, Response<List<Price>> response) {
                 if (response.isSuccessful()) {
@@ -146,6 +153,7 @@ public class OrderFragment extends DialogFragment {
                     isGetPricesDone = true;
                     ifReadyShowViews();
                 } else {
+                    pbLoadingContent.setVisibility(View.GONE);
                     APIError error = ErrorUtils.parseError(response);
                     Toast.makeText(getContext(), error.getCode() + " " + error.getMessage(), Toast.LENGTH_LONG).show();
                     ErrorLog.logd(getContext(), error);
@@ -154,8 +162,10 @@ public class OrderFragment extends DialogFragment {
 
             @Override
             public void onFailure(Call<List<Price>> call, Throwable t) {
-                pbLoadingContent.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (!call.isCanceled()) {
+                    pbLoadingContent.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Ошибка. " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -331,6 +341,9 @@ public class OrderFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+
+        getRoomsCall.cancel();
+        getPricesCall.cancel();
     }
 
     public interface OnFragmentInteractionListener {

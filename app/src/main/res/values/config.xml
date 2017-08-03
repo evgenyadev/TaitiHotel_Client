@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- ip адреса сервера -->
-    <string name="ip_from_device">http://192.168.137.1/</string>
-    <string name="ip_from_emulator">http://192.168.247.2/</string>
+    <string name="server_address">https://taitihotel-server.herokuapp.com/</string>
 
     <!-- начало и конец сезона -->
     <!-- january 0; february 1; ... ; december 11 -->

@@ -6,16 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import kotov.invisible.taitihotel.ApiEngine.APIError;
+import kotov.invisible.taitihotel.ApiEngine.Device;
 import kotov.invisible.taitihotel.ApiEngine.ErrorLog;
 import kotov.invisible.taitihotel.ApiEngine.ErrorUtils;
-import kotov.invisible.taitihotel.ApiEngine.User;
 import kotov.invisible.taitihotel.MyUtils.PhoneInfo;
 import kotov.invisible.taitihotel.data.OrderedRoomData;
 import kotov.invisible.taitihotel.fragments.OrderFragment;
@@ -45,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     private boolean isDataSent = false;
 
     private List<OrderedRoomData> orderedRoomsData;
-    private String mDateCheckIn;
-    private String mDateCheckOut;
+    public String mDateCheckIn;
+    public String mDateCheckOut;
     private int mPeopleCount;
 
     @Override
@@ -79,14 +78,14 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
     private void registerDevice() {
-        User user = new User();
-        user.setPseudoId(PhoneInfo.getUniqueId());
-        user.setName(PhoneInfo.getPhoneName());
-        user.setPhoneNum(PhoneInfo.getPhoneNum(this));
+        Device device = new Device();
+        device.setPseudoId(PhoneInfo.getUniqueId());
+        device.setName(PhoneInfo.getPhoneName());
+        device.setPhoneNum(PhoneInfo.getPhoneNum(this));
 
-        App.getApi().userAdd(user).enqueue(new Callback<User>() {
+        App.getApi().deviceAdd(device).enqueue(new Callback<Device>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Device> call, Response<Device> response) {
                 if (response.isSuccessful()) {
 
                 } else {
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Device> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Ошибка. " + t.toString(), Toast.LENGTH_LONG).show();
             }
         });
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
             orderedRoomsData.addAll(roomsData);
 
         // запустить fragmReserve
-        fragmReserve = ReserveFragment.newInstance("1", "2");
+        fragmReserve = new ReserveFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack("order")
